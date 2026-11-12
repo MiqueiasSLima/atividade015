@@ -4,16 +4,20 @@ import BookList from './components/BookList';
 import type { Catalago } from './types/Catalago';
 import axios from 'axios';
 
-const API_URL = 'https://crudcrud.com/api/aebf90c1629c4927b2d411af03235d08/livros';
+const API_URL = 'https://crudcrud.com/api/dbc1a99581a54690994666d1ab31c490/livros';
 
 function App() {
 
   const [livros, setLivros] = useState<Catalago[]>([])
 
   const adicionarLivro = (dados: Catalago) => {
-    axios
+    return axios
     .post<Catalago>(API_URL, dados)
-    .then(resposta => setLivros(prev => [...prev, resposta.data]))
+    .then(resposta => {setLivros(prev => [...prev, resposta.data])})
+    .catch(erro => {
+      console.error("Erro ao salvar livro:", erro);
+      throw erro;
+    });
   }
 
   const alternarStatus = (id?: string) => {
@@ -38,16 +42,17 @@ function App() {
           })
         );
       })
-      .catch(erro => console.error("Erro ao atualizar status:", erro));
+      .catch(() => alert("Erro ao atualizar lista!"));
   };
 
-  const removerLivro = (id?: any) => {
+  const removerLivro = (id?: string) => {
     axios
       .delete(`${API_URL}/${id}`)
       .then(() => {
         setLivros(prevLista => prevLista.filter(item => item._id !== id));
       })
-      .catch(erro => console.error("Erro ao remover livro:", erro));
+      .catch(() => alert("Erro ao remover livro!"));
+      
   };
 
   useEffect(() => {

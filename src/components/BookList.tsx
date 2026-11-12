@@ -4,8 +4,8 @@ import '../estilos/estilos016.css'
 
 type Props = {
     catalago : Catalago[];
-    onToggle: (id?: any) => void;
-    onDelete: (id?: any) => void;
+    onToggle: (id?: string) => void;
+    onDelete: (id?: string) => void;
 }
 
 
